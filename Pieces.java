@@ -1,5 +1,3 @@
-/** This class is in charge of the creatin, manipulation and movement of the pieces that fall down the board*/
-
 import java.util.Random;
 import java.util.List;
 import java.util.*; 
@@ -15,44 +13,54 @@ import java.awt.event.*;
 import java.awt.geom.*;
 
 
+
+
 public class Pieces
 {
 	
 	boolean isAlive = false;
+	
 	private final String SHAPES[] = {"NoShape", "ZShape", "SShape", "LineShape", 
 		"TShape", "SquareShape", "LShape", "MirroredLShape"};
+
 	private String curShape = " ";
 	private final int SHAPESIZE = 8;
+	
 	private ArrayList<Integer> coords = new ArrayList<Integer>();
+	
 	private char shapeId = ' ';
+
 
 
 	public Pieces()
 	{		
+		
 		intitializePieces();
 	}
 	
-	/** SETS COORDINATES AND CHOOSE A RANDOM SHAPE*/
+	//SETS COORDINATES AND CHOOSE A RANDOM SHAPE
 	public void intitializePieces()
 	{
-		/** choose shape determines which shape*/
+		//choose shape determines which shape
 		chooseShape();
-		//** setCoord determines what spaces to fill based off the shape choosen*/
+		//setCoord determines what spaces to fill based off the shape choosen
 		setCoord();
 	}
 	
-	
+	/*
 	public int getShapeSize()
 	{
 		return this.SHAPESIZE;
 	}
+	*/
 
-	/** Randomly picks a number and chooses a shape based off of the number*/
+	//Randomly picks a number and chooses a shape based off of the number
 	public void chooseShape()
 	{
 		Random rand = new Random();
         int randInt = Math.abs(rand.nextInt()) % 7 + 1;
         this.curShape = SHAPES[randInt];
+		
 	}
 	
 	
@@ -78,9 +86,10 @@ public class Pieces
 	}
 	
 	
-	/** SETS THE STARTING COORDINATES OF THE NEW PIECE DEPENDING ON WHAT IT IS*/
+	//SETS THE STARTING COORDINATES OF THE SHAPE DEPENDING ON WHAT IT IS
 	public void setCoord()
-	{		
+	{
+				
 		if (this.curShape == "NoShape") 
 		{
 			
@@ -177,36 +186,43 @@ public class Pieces
 
 			this.shapeId = 'L';
 		}
+
+	
 	}
 	
 	
-	/** returns the coordinates of the shape*/
+	//returns the coordinates of the shape
 	public ArrayList<Integer> getCoord()
 	{
 		
 		ArrayList<Integer> holder = new ArrayList<Integer>();
-
+		
 		if (this.coords != null)
 		{
 			for (int i = 0; i < this.coords.size(); i++)
 			{		
 				holder.add(this.coords.get(i));
 			}
+			
 			return holder;
+
 		}
+		
 		return holder;
 		
 	}
 	
 	
-	/** MOVES ONE BLOCK ON THE PIECE DOWN */
+	//MOVES ONE COORDINATE DOWN 
 	public void moveOneDown(int yCoord)
 	{
+		
 		int holder = this.coords.get(yCoord);
 		this.coords.set(yCoord, holder+1);
+
 	}
 	
-	/** MOVES THE ENTIRE PIECE DOWN */
+	//MOVES THE ENTIRE PIECE DOWN 
 	public void updatePiece()
 	{
 		for (int i = 1; i < this.coords.size(); i+=2)
@@ -216,9 +232,11 @@ public class Pieces
 		}
 	}
 	
-	/** TAKES A DIRECTION AND CALLS THE RIGHT FUNCTION BASED OF THE CHAR*/
+	//TAKES A DIRECTION AND CALLS THE RIGHT FUNCTION BASED OF THE CHAR
 	public void movePc(char m)
 	{
+		
+	
 		if (m == 'w')
 		{
 			moveRotate();
@@ -235,32 +253,59 @@ public class Pieces
 		{
 			moveRight();
 		}
+		
+		
+		
 	}
 	
-	/** ROTATES THE PIECE*/
+	//ROTATES THE PIECE
 	public void moveRotate()
 	{
 		Integer middleX = this.coords.get(2);
-        Integer middleY = this.coords.get(3);
+		Integer middleY = this.coords.get(3);
 		
-		if(!(middleX.equals(0) || middleX.equals(1) || middleX.equals(8) || middleX.equals(9) || middleY.equals(0)|| middleY.equals(1)))
-		{
-			for (int i = 0; i <= this.coords.size()-1; i+=2)
-			{
-				
-				Integer oldX = this.coords.get(i);
-				Integer oldY = this.coords.get(i+1);
-				
-				Integer newX = -(oldY - middleY ) + middleX;
-				Integer newY = (oldX - middleX ) + middleY;
+		
+		Integer oldXa = this.coords.get(0);
+		Integer oldYa = this.coords.get(1);
+		
+		Integer newXa = -(oldYb - middleY ) + middleX;
+		Integer newYa = (oldXb - middleX ) + middleY;
 
-				this.coords.set(i, newX);
-				this.coords.set(i + 1, newY);
-			}
+		Integer oldXb = this.coords.get(2);
+		Integer oldYb = this.coords.get(3);
+		
+		Integer newXb = -(oldYb - middleY ) + middleX;
+		Integer newYb = (oldXb - middleX ) + middleY;
+
+		Integer oldXc = this.coords.get(4);
+		Integer oldYc = this.coords.get(5);
+		
+		Integer newXc = -(oldYc - middleY ) + middleX;
+		Integer newYc = (oldXc - middleX ) + middleY;
+
+		Integer oldXd = this.coords.get(6);
+		Integer oldYd = this.coords.get(7);
+		
+		Integer newXd = -(oldYd - middleY ) + middleX;
+		Integer newYd = (oldXd - middleX ) + middleY;
+
+		if (newXa>=0 && newXa <=9 && newYa>=0 && newYa<=19 && newXb>=0 && newXb <=9 && newYb>=0 && newYb<=19 && 
+		newXc>=0 && newXc <=9 && newYc>=0 && newYc<=19 && newXd>=0 && newXd <=9 && newYd>=0 && newYd<=19){
+			this.coords.set(0, newXa);
+			this.coords.set(1, newYa);
+
+			this.coords.set(2, newXb);
+			this.coords.set(3, newYb);
+
+			this.coords.set(4, newXc);
+			this.coords.set(5, newYc);
+
+			this.coords.set(6, newXd);
+			this.coords.set(7, newYd);
 		}
 	}
 	
-	/** MOVES PIECE LEFT*/
+	//MOVES PIECE LEFT
 	public void moveLeft()
 	{
 		for (int i = 0; i < this.coords.size()-1; i+=2)
@@ -270,7 +315,7 @@ public class Pieces
 		}
 	}
 	
-	/** MOVES PIECE RIGHT*/
+	//MOVES PIECE RIGHT
 	public void moveRight()
 	{
 		for (int i = 0; i < this.coords.size()-1; i+=2)
@@ -280,7 +325,7 @@ public class Pieces
 		}
 	}
 	
-	/** MOVES PIECE DOWN*/
+	//MOVES PIECE DOWN
 	public void moveDown()
 	{
 		for (int i = 1; i <= this.coords.size()-1; i+=2)
@@ -290,10 +335,20 @@ public class Pieces
 		}
 	}
 	
-	/** REMOVES BLOCK IN PIECE*/
+	//REMOVES BLOCK IN PIECE
 	public void removeBlock(int xCoord, int yCoord)
 	{
 		this.coords.remove(xCoord);
 		this.coords.remove(yCoord);
 	}
+	
+	/*
+	
+	public static void main(String arg[])
+	{
+		Pieces myPic = new Pieces();
+		myPic.moveDown();
+	}
+	
+	*/
 }
